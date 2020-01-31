@@ -27,11 +27,11 @@ Quando sua interface tem que fornecer __feedback instantâneo__, mesmo em conex�
 
 ## Pilares dos micro-frontends
 
-* __Seja agnóstico em relação a tecnologia___<br>Cada equipe deve ser capaz de escolher e atualizar seu projeto sem ter de coordenar com outras equipes. [Elementos personalizados](#the-dom-is-the-api) são uma ótima maneira de esconder detalhes de implementação enquanto fornece uma interface neutra para outros.
-* __Código independente por time___<br>Não partilhe um runtime, mesmo que todas as equipes utilizem o mesmo framework. Construa aplicativos independentes que sejam auto-contidos. Não confie em variáveis globais ou de estado compartilhado.
+* __Seja agnóstico em relação a tecnologia__<br>Cada equipe deve ser capaz de escolher e atualizar seu projeto sem ter de coordenar com outras equipes. [Elementos personalizados](#the-dom-is-the-api) são uma ótima maneira de esconder detalhes de implementação enquanto fornece uma interface neutra para outros.
+* __Código independente por time__<br>Não partilhe um runtime, mesmo que todas as equipes utilizem o mesmo framework. Construa aplicativos independentes que sejam auto-contidos. Não confie em variáveis globais ou de estado compartilhado.
 * __Estabeleça Prefixos da Equipe__<br>Acordo sobre convenções de nomenclatura onde o isolamento ainda não é possível. Use namespaces no CSS, em Eventos, em Armazenamento Local e Cookies para evitar colisões e esclarecer a propriedade.
-* __Use código nativo ao invés de APIs de terceiros___<br>Use [eventos do navegador para comunicação](#parent-child-communication--dom-modification) em vez de construir um sistema PubSub global. Se você realmente tem que construir uma API, tente mantê-la tão simples quanto possível.
-* __Construa um site resiliente___<br>Sua funcionalidade deve ser útil, mesmo que o JavaScript tenha falhado ou ainda não tenha sido executado. Use [Universal Rendering](#serverside-rendering--universal-rendering) e Progressive Enhancement para melhorar o desempenho aos olhos do usuário.
+* __Use código nativo ao invés de APIs de terceiros__<br>Use [eventos do navegador para comunicação](#parent-child-communication--dom-modification) em vez de construir um sistema PubSub global. Se você realmente tem que construir uma API, tente mantê-la tão simples quanto possível.
+* __Construa um site resiliente__<br>Sua funcionalidade deve ser útil, mesmo que o JavaScript tenha falhado ou ainda não tenha sido executado. Use [Universal Rendering](#serverside-rendering--universal-rendering) e Progressive Enhancement para melhorar o desempenho aos olhos do usuário.
 
 ---
 
