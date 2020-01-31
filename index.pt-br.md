@@ -1,6 +1,6 @@
 Técnicas, estratégias e receitas para construir um __web app moderno__ com __múltiplos times__ que podem __entregar funcionalidades de maneira independente__.
 
-## O que são micro-fronteds?
+## O que são micro-frontends?
 
 O termo __micro-frontend__ surgiu no [ThoughtWorks Technology Radar](https://www.thoughtworks.com/radar/techniques/micro-frontends) no final de 2016. Ele extende os conceitos de micro serviços para o mundo frontend. A moda do momento é construir uma aplicação para navegadores poderosa e rica em funcionalidades, também conhecida como single page app, que se estrutura numa arquitetura de micro serviços. Com o passar do tempo a camada de frontend, geralmente desenvolvida por um time específico, cresce e fica cada vez mais difícil de dar manutenção. É o que chamamos de [monolito Frontend](https://www.youtube.com/watch?v=pU1gXA0rfwc).
 
@@ -17,9 +17,9 @@ __Organização Vertical__
 
 ## O que é uma Aplicação Web moderna?
 
-In the introduction I've used the phrase "building a modern web app". Let's define the assumptions that are connected with this term.
+No início do artigo eu usei a frase "construindo uma aplicação web moderna". Vamos definir as expectativas relacionadas com este termo.
 
-To put this into a broader perspective, [Aral Balkan](https://ar.al/) has written a blog post about what he calls the [Documents‐to‐Applications Continuum](https://ar.al/notes/the-documents-to-applications-continuum/). He comes up with the concept of a sliding scale where a site, built out of __static documents__, connected via links, is __on the left__ end and a pure behaviour driven, __contentless application__ like an online photo editor is __on the right__.
+Para colocarmos este assunto numa perspectiva mais ampla, [Aral Balkan](https://ar.al/) escreveu um artigo sobre o que ele chama de [Documents‐to‐Applications Continuum](https://ar.al/notes/the-documents-to-applications-continuum/) (ou "ciclo contínuo 'documentos-para-aplicações'", em tradução livre). Ele teve a ideia de uma escala onde um site, composto por __páginas estáticas__, conectadas via links, é __à esquerda__ num contexto puramente comportamental, __uma aplicação sem conteúdo__ como um editor de imagens online __à direita__.
 
 If you would position your project on the __left side of this spectrum__, an __integration on webserver level__ is a good fit. With this model a server collects and __concatenates HTML strings__ from all components that make up the page requested by the user. Updates are done by reloading the page from the server or replacing parts of it via ajax. [Gustaf Nilsson Kotte](https://twitter.com/gustaf_nk/) has written a [comprehensive article](https://gustafnk.github.io/microservice-websites/) on this topic.
 
