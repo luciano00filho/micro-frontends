@@ -19,35 +19,35 @@ __Organização Vertical__
 
 No início do artigo eu usei a frase "construindo uma aplicação web moderna". Vamos definir as expectativas relacionadas com este termo.
 
-Para colocarmos este assunto numa perspectiva mais ampla, [Aral Balkan](https://ar.al/) escreveu um artigo sobre o que ele chama de [Documents‐to‐Applications Continuum](https://ar.al/notes/the-documents-to-applications-continuum/) (ou "ciclo contínuo 'documentos-para-aplicações'", em tradução livre). Ele teve a ideia de uma escala onde um site, composto por __páginas estáticas__, conectadas via links, é __à esquerda__ num contexto puramente comportamental, __uma aplicação sem conteúdo__ como um editor de imagens online __à direita__.
+Para colocarmos este assunto numa perspectiva mais ampla, [Aral Balkan](https://ar.al/) escreveu um artigo sobre o que ele chama de [Documents‐to‐Applications Continuum](https://ar.al/notes/the-documents-to-applications-continuum/) (ou "ciclo contínuo 'documentos-para-aplicações'", em tradução livre). Ele teve a ideia de uma escala onde um site, composto por __páginas estáticas__, conectadas via links, é num contexto puramente comportamental, __uma aplicação sem conteúdo__ como um editor de imagens online.
 
-If you would position your project on the __left side of this spectrum__, an __integration on webserver level__ is a good fit. With this model a server collects and __concatenates HTML strings__ from all components that make up the page requested by the user. Updates are done by reloading the page from the server or replacing parts of it via ajax. [Gustaf Nilsson Kotte](https://twitter.com/gustaf_nk/) has written a [comprehensive article](https://gustafnk.github.io/microservice-websites/) on this topic.
+Se você posicionar seu projeto no lado __esquerdo deste espectro__, uma __integração no nível do webserver__ é um bom ajuste. Com este modelo, um servidor coleta e __concatena strings HTML__ de todos os componentes que compõem a página solicitada pelo usuário. As atualizações são feitas recarregando a página ou substituindo partes da mesma via ajax. [Gustaf Nilsson Kotte](https://twitter.com/gustaf_nk/) escreveu um [artigo abrangente](https://gustafnk.github.io/microservice-websites/) sobre o assunto.
 
-When your user interface has to provide __instant feedback__, even on unreliable connections, a pure server rendered site is not sufficient anymore. To implement techniques like [Optimistic UI](https://www.smashingmagazine.com/2016/11/true-lies-of-optimistic-user-interfaces/) or [Skeleton Screens](http://www.lukew.com/ff/entry.asp?1797) you need to be able to also __update__ your UI __on the device itself__. Google's term [Progressive Web Apps](https://developers.google.com/web/progressive-web-apps/) aptly describes the __balancing act__ of being a good citizen of the web (progressive enhancement) while also providing app-like performance. This kind of application is located somewhere __around the middle of the site-app-continuum__. Here a solely server based solution is not sufficient anymore. We have to move the __integration into the browser__, and this is the focus of this article.
+Quando sua interface tem que fornecer __feedback instantâneo__, mesmo em conexões não confiáveis, um site renderizado apenas no servidor não é suficiente. Para implementar técnicas como [Optimistic UI](https://www.smashingmagazine.com/2016/11/true-lies-of-optimistic-user-interfaces/) ou [Skeleton Screens](http://www.lukew.com/ff/entry.asp?1797) você também precisa ser capaz de __atualizar__ a sua UI __no próprio dispositivo__. O termo [Progressive Web Apps](https://developers.google.com/web/progressive-web-apps/) do Google descreve de maneira justa o __ato__ de ser um bom cidadão da web (aprimoramento progressivo) ao mesmo tempo em que fornece um desempenho semelhante ao de um aplicativo. Este tipo de aplicação está localizado em algum lugar __no meio do site-app-continuum__. Aqui uma solução unicamente baseada em servidor não é mais suficiente. Nós temos que mover a __integração para dentro do navegador__, e este é o foco deste artigo.
 
-## Core Ideas behind Micro Frontends
+## Pilares dos micro-frontends
 
-* __Be Technology Agnostic__<br>Each team should be able to choose and upgrade their stack without having to coordinate with other teams. [Custom Elements](#the-dom-is-the-api) are a great way to hide implementation details while providing a neutral interface to others.
-* __Isolate Team Code__<br>Don’t share a runtime, even if all teams use the same framework. Build independent apps that are self contained. Don't rely on shared state or global variables.
-* __Establish Team Prefixes__<br>Agree on naming conventions where isolation is not possible yet. Namespace CSS, Events, Local Storage and Cookies to avoid collisions and clarify ownership.
-* __Favor Native Browser Features over Custom APIs__<br>Use [Browser Events for communication](#parent-child-communication--dom-modification) instead of building a global PubSub system. If you really have to build a cross team API, try keeping it as simple as possible.
-* __Build a Resilient Site__<br>Your feature should be useful, even if JavaScript failed or hasn't executed yet. Use [Universal Rendering](#serverside-rendering--universal-rendering) and Progressive Enhancement to improve perceived performance.
+* __Seja agnóstico em relação a tecnologia___<br>Cada equipe deve ser capaz de escolher e atualizar seu projeto sem ter de coordenar com outras equipes. [Elementos personalizados](#the-dom-is-the-api) são uma ótima maneira de esconder detalhes de implementação enquanto fornece uma interface neutra para outros.
+* __Código independente por time___<br>Não partilhe um runtime, mesmo que todas as equipes utilizem o mesmo framework. Construa aplicativos independentes que sejam auto-contidos. Não confie em variáveis globais ou de estado compartilhado.
+* __Estabeleça Prefixos da Equipe__<br>Acordo sobre convenções de nomenclatura onde o isolamento ainda não é possível. Use namespaces no CSS, em Eventos, em Armazenamento Local e Cookies para evitar colisões e esclarecer a propriedade.
+* __Use código nativo ao invés de APIs de terceiros___<br>Use [eventos do navegador para comunicação](#parent-child-communication--dom-modification) em vez de construir um sistema PubSub global. Se você realmente tem que construir uma API, tente mantê-la tão simples quanto possível.
+* __Construa um site resiliente___<br>Sua funcionalidade deve ser útil, mesmo que o JavaScript tenha falhado ou ainda não tenha sido executado. Use [Universal Rendering](#serverside-rendering--universal-rendering) e Progressive Enhancement para melhorar o desempenho aos olhos do usuário.
 
 ---
 
-## The DOM is the API
+## O DOM é a API
 
-[Custom Elements](https://developers.google.com/web/fundamentals/getting-started/primers/customelements), the interoperability aspect from the Web Components Spec, are a good primitive for integration in the browser. Each team builds their component __using their web technology of choice__ and __wraps it inside a Custom Element__ (e.g. `<order-minicart></order-minicart>`). The DOM specification of this particular element (tag-name, attributes & events) acts as the contract or public API for other teams. The advantage is that they can use the component and its functionality without having to know the implementation. They just have to be able to interact with the DOM.
+[Elementos personalizados](https://developers.google.com/web/fundamentals/getting-started/primers/customelements), o aspecto de interoperabilidade da especificação Web Components, são um boa alernativa para integração com o navegador. Cada equipe constrói seu componente __usando sua tecnologia web preferida__ e __trabalha dentro de um Elemento Personalizado__ (por exemplo, `<ordem-minicart></ordem-minicart>`). A especificação DOM deste elemento em particular (tag-name, attributes & events) atua como o contrato ou API pública para outras equipes. A vantagem é que eles podem utilizar o componente e sua funcionalidade sem ter que conhecer a implementação. Eles só têm que ser capazes de interagir com o DOM.
 
-But Custom Elements alone are not the solution to all our needs. To address progressive enhancement, universal rendering or routing we need additional pieces of software.
+Mas os Elementos Personalizados por si só não são a solução para todos os nossos problemas. Para abordar melhorias progressivas, renderização universal ou roteamento, precisamos de peças adicionais de software.
 
-This page is divided into two main areas. First we will discuss [Page Composition](#page-composition) - how to assemble a page out of components owned by different teams. After that we'll show examples for implementing clientside [Page Transition](#page-transition).
+Esta página está dividida em duas áreas principais. Primeiro vamos discutir [Composição da Página](#page-composition) - como montar uma página a partir de componentes pertencentes a diferentes equipes. Depois disso, mostraremos exemplos de implementação client-side [Page Transition](#page-transition).
 
-## Page Composition
+## Page Composition (composição da página)
 
-Beside the __client-__ and __serverside__ integration of code written in __different frameworks__ itself, there are a lot of side topics that should be discussed: mechanisms to __isolate js__, __avoid css conflicts__, __load resources__ as needed, __share common resources__ between teams, handle __data fetching__ and think about good __loading states__ for the user. We'll go into these topics one step at a time.
+Ao lado da integração __client-side__ e __server-side__ do código escrito em __diferentes frameworks__ em si, há muitos tópicos secundários que devem ser discutidos: mecanismos para __isolar JS__, __evitar conflitos CSS__, __carregar recursos__ conforme necessário, __partilhar recursos comuns__ entre as equipes, lidar com __data fetching__ e pensar em bons __estados de carregamento__ para o usuário. Iremos abordar estes tópicos um passo de cada vez.
 
-### The Base Prototype
+### The Base Prototype (o protótipo base)
 
 The product page of this model tractor store will serve as the basis for the following examples.
 
@@ -59,7 +59,7 @@ It features a __variant selector__ to switch between the three different tractor
 
 All HTML is generated client side using __plain JavaScript__ and ES6 Template Strings with __no dependencies__. The code uses a simple state/markup separation and re-renders the entire HTML client side on every change - no fancy DOM diffing and __no universal rendering__ for now. Also __no team separation__ - [the code](https://github.com/neuland/micro-frontends/tree/master/0-model-store) is written in one js/css file.
 
-### Clientside Integration
+### Clientside Integration (integração client-side)
 
 In this example, the page is split into separate components/fragments owned by three teams. __Team Checkout__ (blue) is now responsible for everything regarding the purchasing process - namely the __buy button__ and __mini basket__. __Team Inspire__ (green) manages the __product recommendations__ on this page. The page itself is owned by __Team Product__ (red).
 
