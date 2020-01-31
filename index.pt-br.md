@@ -361,7 +361,7 @@ watch the [Github Repo](https://github.com/neuland/micro-frontends) to get notif
     - roteamento universal
   - ...
 - Tópicos a parte
-  - Isolated CSS / Coherent User Interface / Style Guides & Pattern Libraries
+  - CSS Isolado / Interface de Usuário coerente / Guias de estilo & Bibliotecas de Padrões (Pattern Libraries)
   - Performance no carregamento inicial
   - Performance durante o uso do site
   - Carregamento de CSS
