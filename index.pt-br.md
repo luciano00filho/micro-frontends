@@ -6,7 +6,7 @@ O termo __micro-frontend__ surgiu no [ThoughtWorks Technology Radar](https://www
 
 A ideia por trás do micro-frontend é pensar em um website ou sistema web como __uma composição de funcionalidades__ que pertence a __times independentes__. Cada time tem uma __área de negócio distinta__ ou __missão__ para cuidar e se aprofundar. Um time é __multifuncional__ e desenvolve as funcionalidades __de ponta a ponta__, desde a base de dados até a interface do usuário.
 
-However, this idea is not new. It has a lot in common with the [Self-contained Systems](http://scs-architecture.org/) concept. In the past approaches like this went by the name of [Frontend Integration for Verticalised Systems](https://dev.otto.de/2014/07/29/scaling-with-microservices-and-vertical-decomposition/). But Micro Frontends is clearly a more friendly and less bulky term.
+Contudo, este conceito não é novo. Ele tem muito em comum com a ideia de [sistemas auto-executados](http://scs-architecture.org/). No passado, este tipo de técnica era conhecida como [Integração Frontend para Sistemas Verticalizados](https://dev.otto.de/2014/07/29/scaling-with-microservices-and-vertical-decomposition/). Mas micro-frontends é um termo muito mais claro e menos confuso.
 
 __Frontends Monolíticos__
 ![Frontends Monolíticos](./ressources/diagrams/organisational/monolith-frontback-microservices.png)
